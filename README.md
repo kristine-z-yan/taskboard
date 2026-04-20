@@ -1,7 +1,7 @@
 # Taskboard App
 
-A simple Kanban-style task board built with Next.js.  
-You can create tasks, group them by status (`To do`, `In Progress`, `Done`), and move tasks between columns with drag and drop.
+A Kanban-style task management app built with Next.js.
+It supports task creation, drag-and-drop across columns, dynamic column management, and a clean responsive UI.
 
 ## Tech Stack
 
@@ -14,10 +14,20 @@ You can create tasks, group them by status (`To do`, `In Progress`, `Done`), and
 
 ## Features
 
-- Add a new task with a title and status
-- Display tasks in Kanban columns by status
-- Drag and drop tasks across columns
-- Delete tasks from the board
+- Create tasks from the top form (title + target column)
+- Add tasks inline inside each column (press Enter to submit)
+- Drag and drop tasks between columns (`dnd-kit`)
+- Remove tasks directly from each card
+- Add custom columns from the inline `+ Add new column` tile
+- Remove custom columns via the `×` button in the header
+- Keep default columns (`To do`, `In Progress`, `Done`) protected
+- Enforce a maximum of 5 total columns
+
+## Default Workflow Columns
+
+- `To do`
+- `In Progress`
+- `Done`
 
 ## Project Structure
 
@@ -43,6 +53,11 @@ npm run dev
 3. Open your browser at:
 
 [http://localhost:3000](http://localhost:3000)
+
+## Notes
+
+- App state is currently in-memory via Zustand (refresh clears current board data).
+- Column removal also removes tasks that belong to the deleted custom column.
 
 ## Available Scripts
 
