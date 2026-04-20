@@ -1,8 +1,15 @@
-export type TaskStatus = "todo" | "inProgress" | "completed";
+export type TaskStatus = string;
 
-export const TASK_COLUMNS: readonly { id: TaskStatus; title: string }[] = [
+export type TaskColumn = {
+  id: TaskStatus;
+  title: string;
+};
+
+export const MAX_COLUMNS = 5;
+
+export const DEFAULT_TASK_COLUMNS: readonly TaskColumn[] = [
   { id: "todo", title: "To do" },
-  { id: "inProgress", title: "In Progress" },
+  { id: "in-progress", title: "In Progress" },
   { id: "completed", title: "Done" },
 ];
 

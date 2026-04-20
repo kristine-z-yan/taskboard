@@ -21,23 +21,25 @@ const TaskItem = ({ task }: { task: Task }) => {
       style={style}
       {...attributes}
       {...listeners}
-      className={`rounded-md border border-gray-300 bg-white p-3 shadow-sm touch-none ${isDragging ? "opacity-50" : ""}`}
+      className={`touch-none rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition ${isDragging ? "opacity-50 shadow-md" : "hover:shadow-md"}`}
       data-task-id={task.id}
       data-task-status={task.status}
     >
-      <h3 className="font-semibold text-gray-900">{task.title}</h3>
+      <div className="flex items-start justify-between gap-2">
+        <h3 className="font-semibold text-gray-900">{task.title}</h3>
+        <button
+          type="button"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => deleteTask(task.id)}
+          className="flex h-6 w-6 items-center justify-center rounded text-gray-500 transition hover:bg-red-100 hover:text-red-600"
+          aria-label={`Delete ${task.title}`}
+        >
+          ×
+        </button>
+      </div>
       <p className="mt-1 text-xs text-gray-500">
         Updated {task.updatedAt.toLocaleDateString()}
       </p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => deleteTask(task.id)}
-          className="rounded-md bg-red-500 px-3 py-1.5 text-sm text-white hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
     </article>
   );
 };

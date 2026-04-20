@@ -1,16 +1,22 @@
 "use client";
 import { useTaskStore } from "@/src/store/task/task.store";
-import { useState } from "react";
-import { TASK_COLUMNS, TaskStatus } from "../types/task";
+import { useState, type SyntheticEvent } from "react";
+import { TaskStatus } from "../types/task";
 
 const AddTaskForm = () => {
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("todo");
+  const columns = useTaskStore((state) => state.columns);
+  const [status, setStatus] = useState<TaskStatus>("todo");
   const addTask = useTaskStore((state) => state.addTask);
+  const selectedStatus = columns.some((column) => column.id === status)
+    ? status
+    : (columns[0]?.id ?? "");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addTask(title, status as TaskStatus);
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) return;
+    addTask(trimmedTitle, selectedStatus);
     setTitle("");
   };
 
@@ -25,12 +31,26 @@ const AddTaskForm = () => {
           required
           className="border border-gray-300 rounded-md p-2"
         />
-        <select name="status" id="status" className="border border-gray-300 rounded-md p-2 pr-6" onChange={(e) => setStatus(e.target.value)}>
-          {TASK_COLUMNS.map((column: { id: string; title: string }) => (
-            <option key={column.id} value={column.id}>{column.title}</option>
+        <select
+          name="status"
+          id="status"
+          value={selectedStatus}
+          className="border border-gray-300 rounded-md p-2 pr-6"
+          disabled={columns.length === 0}
+          onChange={(e) => setStatus(e.target.value)}
+        >
+          {columns.map((column) => (
+            <option key={column.id} value={column.id}>
+              {column.title}
+            </option>
           ))}
         </select>
-        <button type="submit" className="bg-green-500 text-white rounded-md py-2 px-4">Add Task</button>
+        <button
+          type="submit"
+          className="bg-green-500 text-white rounded-md py-2 px-4"
+        >
+          Add Task
+        </button>
       </form>
     </div>
   );
