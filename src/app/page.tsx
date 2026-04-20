@@ -1,4 +1,5 @@
 import AddTaskForm from "@/src/components/AddTaskForm";
+import TaskList from "@/src/components/TaskList";
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <div className="flex justify-center">
         <AddTaskForm />
       </div>
+      <TaskList />
     </div>
   );
 }
